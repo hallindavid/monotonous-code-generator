@@ -6,6 +6,5 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'ParseCsv\\extensions\\' => array($vendorDir . '/parsecsv/php-parsecsv/src/extensions'),
-    'ParseCsv\\' => array($vendorDir . '/parsecsv/php-parsecsv/src'),
+    'League\\Csv\\' => array($vendorDir . '/league/csv/src'),
 );

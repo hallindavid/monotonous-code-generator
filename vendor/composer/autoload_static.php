@@ -6,22 +6,21 @@ namespace Composer\Autoload;
 
 class ComposerStaticInit00e488dfaf084bb28621c0d457a59972
 {
+    public static $files = array (
+        '9e4824c5afbdc1482b6025ce3d4dfde8' => __DIR__ . '/..' . '/league/csv/src/functions_include.php',
+    );
+
     public static $prefixLengthsPsr4 = array (
-        'P' => 
+        'L' => 
         array (
-            'ParseCsv\\extensions\\' => 20,
-            'ParseCsv\\' => 9,
+            'League\\Csv\\' => 11,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'ParseCsv\\extensions\\' => 
+        'League\\Csv\\' => 
         array (
-            0 => __DIR__ . '/..' . '/parsecsv/php-parsecsv/src/extensions',
-        ),
-        'ParseCsv\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/parsecsv/php-parsecsv/src',
+            0 => __DIR__ . '/..' . '/league/csv/src',
         ),
     );
 

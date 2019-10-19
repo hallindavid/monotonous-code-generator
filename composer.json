@@ -1,5 +1,5 @@
 {
     "require": {
-        "parsecsv/php-parsecsv": "^1.1"
+        "league/csv": "^9.4"
     }
 }
