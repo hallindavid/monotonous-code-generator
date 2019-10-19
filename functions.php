@@ -3,6 +3,10 @@
 require_once('config.php');
 require_once('vendor/autoload.php');
 
+if (!ini_get("auto_detect_line_endings")) {
+    	ini_set("auto_detect_line_endings", '1');
+}
+
 function cleanDirectoryAndGetFiles()
 {
 	$log = cleanDirectory();
@@ -133,17 +137,53 @@ function checkFile($fileName)
 
 }
 
-function getNumHeadings($fileName)
+function getFileInfo($fileName)
 {
-
-	if (!ini_get("auto_detect_line_endings")) {
-    	ini_set("auto_detect_line_endings", '1');
-	}
+	$samples = array();
+	$numCols = 0;
 
 	$filePath =  $GLOBALS['importDirectory'].$fileName;
-	$reader = Reader::createFromPath($filePath, 'r');
 
+    $row = 0;
+    if (($handle = fopen($filePath, "r")) !== FALSE) {
+        while ((($data = fgetcsv($handle, 1000, ",")) !== FALSE) && $row < 10) {
+            if ($row == 0) $numCols = count($data);
+            $colNum = 1;
+            foreach($data as $colData)
+            {
+            	$samples['row'.$row]['col'.$colNum] = $colData;
+            	$colNum++;
+            }
 
+            $row++;
+        }
+        fclose($handle);
+    }
 
+    return array('num_columns'=>$numCols, 'samples'=>$samples);
 }
+
+function readFullFile($fileName, $format)
+{
+	$filePath =  $GLOBALS['importDirectory'].$fileName;
+
+	$fileInfo = getFileInfo($fileName);
+	$numCols = $fileInfo["num_columns"];
+
+    $file = new SplFileObject($filePath);
+	$file->setFlags(SplFileObject::READ_CSV);
+
+
+	foreach ($file as $row) {
+		$table = array();
+		for ($i = 0; $i < $numCols; $i++)
+		{
+			$table["^".$i."^"] = $row[$i];
+		}
+        	
+		echo strtr($format, $table) . "\n";
+	}
+}
+
+
 ?>
