@@ -1,6 +1,7 @@
 <?php
 
 require_once('config.php');
+require_once('vendor/autoload.php');
 
 function cleanDirectoryAndGetFiles()
 {
@@ -129,6 +130,20 @@ function checkFile($fileName)
   	}
 
   	return true;
+
+}
+
+function getNumHeadings($fileName)
+{
+
+	if (!ini_get("auto_detect_line_endings")) {
+    	ini_set("auto_detect_line_endings", '1');
+	}
+
+	$filePath =  $GLOBALS['importDirectory'].$fileName;
+	$reader = Reader::createFromPath($filePath, 'r');
+
+
 
 }
 ?>

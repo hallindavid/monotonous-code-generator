@@ -1,5 +1,5 @@
 <?php 
-	require_once('directory_cleaner.php');
+	require_once('functions.php');
 
 $file = $_GET["file"];
 
