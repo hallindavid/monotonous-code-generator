@@ -37,6 +37,13 @@ switch ($routeArray["path"]) {
         break;
     case '/process_file_backend':
         loadView('process_file_backend',false);
+        break;
+    case '/upload_file':
+        loadView('upload_file', false);
+        break;
+    case '/get_directory':
+        loadView('get_directory', false);
+        break;
     default:
         http_response_code(404);
         loadView('404',false);

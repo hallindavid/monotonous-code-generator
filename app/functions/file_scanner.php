@@ -127,15 +127,17 @@
 
 		    $file = new SplFileObject($this->filePath);
 			$file->setFlags(SplFileObject::READ_CSV | SplFileObject::READ_AHEAD | SplFileObject::SKIP_EMPTY | SplFileObject::DROP_NEW_LINE);
-
+			$rowNum = 1;
 			foreach ($file as $row) {
 				$table = array();
-				for ($i = 0; $i < $this->cols; $i++)
+				$table["^0^"] = $rowNum;
+				for ($i = 1; $i < $this->cols; $i++)
 				{
-					$table["^".$i."^"] = $row[$i];
+					$table["^".$i."^"] = $row[$i-1];
 				}
 		        	
 				echo strtr($format, $table) . "\n";
+				$rowNum++;
 			}
 
 			$file = null;
