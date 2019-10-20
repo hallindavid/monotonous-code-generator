@@ -1,35 +1,20 @@
 <?php 
-	require_once('functions.php');
-
-$file = $_GET["file"];
-
-if (!checkFile($file))
+$fileName = $_GET["file"];
+$file = new FileScanner($fileName);
+if (!$file->info("readable"))
 {
-	header("Location: index.php"); 
+  header("Location: /"); 
 }
-$data = getFileInfo($file);
-$numCols = $data['num_columns'];
-$sampleData = $data['samples'];
 
+require_once(APPPATH."includes/header.php");
 ?>
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Code Generator - Processing File: <?php echo $file; ?></title>
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="node_modules/bulma-extensions/dist/css/bulma-extensions.min.css">
-  </head>
-  <body>
     <section class="hero is-medium is-primary">
       <div class="hero-body">
         <div class="container">
           <div class="columns">
             <div class="column is-8-desktop is-offset-2-desktop">
               <h1 class="title is-2 is-spaced">
-                Process File: <?php echo $file; ?>
+                Process File: <?php echo $file->info("filename"); ?>
               </h1>
             </div>
           </div>
@@ -39,28 +24,33 @@ $sampleData = $data['samples'];
     <section class="section">
       <div class="container">
         <div class="columns">
-          <?php if ($numCols == 0) { ?>
+          <?php if ($file->info("cols") == 0) { ?>
             <div class="column">
               <center><strong>The file looks empty... we looked on the first row, and couldn't detect any columns</strong></center>
+              <?php var_dump($file->info()); ?>
+            </div>
+          <?php } else if ($file->info("rows") == 0) { ?>
+            <div class="column">
+              <center><strong>The file looks empty... we started to comb through it but couldn't detect any rows</strong></center>
             </div>
           <?php } else { ?>
           <div class="column">
             <div class="card">
               <div class="card-content">
                 <p class="title">
-                  Detected <?php echo $numCols; ?> Columns
+                  Detected <?php echo $file->info("cols"); ?> Columns
                 </p>
 
                 <table class="table is-bordered is-fullwidth has-text-centered">
                 <thead>
                   <tr>
-                  <?php for ($i = 1; $i<= $numCols; $i++) { ?> 
+                  <?php for ($i = 1; $i<= $file->info("cols"); $i++) { ?> 
                     <th class="has-text-centered">col<?php echo $i; ?></th>
                   <?php } ?>
                   </tr>
                 </thead>
                 <tbody>
-                  <?php foreach($sampleData as $row) { ?>
+                  <?php foreach($file->info("sample") as $row) { ?>
                     <tr>
                     <?php foreach($row as $col) { ?>
                       <td class="has-text-centered"><?php echo $col; ?></td>
@@ -84,7 +74,7 @@ $sampleData = $data['samples'];
                 <code> insert into (id, description) VALUES (^1^, ^2^);</code><br />
                 <strong>would produce</strong><br />
                 <code><?php
-                  foreach($sampleData as $row) { 
+                  foreach($file->info("sample") as $row) { 
                     echo 'insert into (id, description) VALUES (';
                     echo $row['col1'] . ', ' . $row['col2'] . '); <br />';
                   }
@@ -103,48 +93,23 @@ $sampleData = $data['samples'];
                 <textarea class="textarea" id="format_string">insert into (id, description) VALUES (^1^, ^2^);</textarea>
               </div>
               <footer class="card-footer">
-                <a href="#" class="card-footer-item" onclick="javascript:code_format('<?php echo $file; ?>');">Format</a>
+                <a href="javascript:code_format()" class="card-footer-item">Format</a>
+                <input type="hidden" id="filename" value="<?php echo $file->info("filename"); ?>"/>
               </footer>
             </div>
           </div>
-
-
         <?php } ?>
         </div>
       </div>
     </section>
-    <section class="section">
-      <div class="columns">
-        <div class="column" id="results_set">
-
+     <section class="section">
+      <div class="container">
+        <h1 class="title">Output</h1>
+        <div class="columns">
+          <div class="column" id="results_set"></div>
         </div>
       </div>
     </section>
-    <footer class="footer has-text-centered">
-      <div class="container">
-         <div class="columns">
-          <div class="column is-8-desktop is-offset-2-desktop">
-            <p>
-              <small>
-                Source code licensed <a href="http://opensource.org/licenses/mit-license.php">MIT</a>
-              </small>
-            </p>
-            <p style="margin-top: 1rem;">
-              <a href="http://bulma.io">
-                <img src="made-with-bulma.png" alt="Made with Bulma" width="128" height="24">
-              </a>
-            </p>
-          </div>
-        </div>
-      </div>
-    </footer>
-    
-    <script type="text/javascript" src="node_modules/axios/dist/axios.min.js"></script>
-    <script type="text/javascript" src="node_modules/handlebars/dist/handlebars.min.js"></script>
-    <script type="text/javascript" src="node_modules/bulma-extensions/dist/js/bulma-extensions.min.js"></script>
-    <script type="text/javascript" src="node_modules/clipboard/dist/clipboard.min.js"></script>
-    <script type="text/javascript" src="lib/main.js"></script>
-
     <script id="new-template" type="text/x-handlebars-template"><div class="card">
   <header class="card-header">
       <p class="card-header-title">
@@ -162,6 +127,4 @@ $sampleData = $data['samples'];
     </div>
   </div>
 </div></script>
-
-  </body>
-</html>
+<?php require_once(APPPATH."includes/footer.php"); ?>

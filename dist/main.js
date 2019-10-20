@@ -1,25 +1,15 @@
-document.addEventListener('DOMContentLoaded', () => {
- 	console.log("Loaded");
-});
-
-
-
-
-function code_format(fName) {
+function code_format() {
 	var source = document.getElementById("new-template").innerHTML;
 	var template = Handlebars.compile(source);
-
-	vFormat = document.getElementById("format_string").value;
-
-
-	const Url ="process_file_backend.php";
-	
+	var Url ="/process_file_backend";
+	var vFormat = document.getElementById("format_string").value;
+	var vFile = document.getElementById("filename").value;
 
 	axios({
 		method: 'post',
 		url: Url,
 		data: {
-			filename: fName,
+			filename: vFile,
 			format: vFormat
 		}
 	})
@@ -47,9 +37,4 @@ function code_format(fName) {
 
 	})
 	.catch(err=>console.log(err));
-
 }
-
-
-
-
