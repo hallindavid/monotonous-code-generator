@@ -21,6 +21,13 @@ if (!$file->info("readable"))
     </section>
     <section class="section">
       <div class="container">
+      <div class="columns">
+        <div class="column">
+          <a href="/" class="button"><i class="fas fa-home"></i> &nbsp; Home</a>
+        </div>
+      </div>
+    </div>
+      <div class="container">
         <div class="columns">
           <?php if ($file->info("cols") == 0) { ?>
             <div class="column">
@@ -69,11 +76,11 @@ if (!$file->info("readable"))
                 <p>Use the token <code>^1^</code> to indicate where the column number should go (columns start at 1, not 0)</p><br />
                 <p>Say we're writing a database seed file, and you want to deposit all of this into the database via insert statements.  This is how you'd mark the following query</p>
                 <strong>format string</strong><br />
-                <code> insert into (id, description) VALUES (^1^, ^2^);</code><br />
+                <code> insert into table (id, description) VALUES (^1^, ^2^);</code><br />
                 <strong>would produce</strong><br />
                 <code><?php
                   foreach($file->info("sample") as $row) { 
-                    echo 'insert into (id, description) VALUES (';
+                    echo 'insert into table (id, description) VALUES (';
                     echo $row['col1'] . ', ' . $row['col2'] . '); <br />';
                   }
                 ?></code>
@@ -88,7 +95,7 @@ if (!$file->info("readable"))
                 <p class="title">
                   Create Format
                 </p>
-                <textarea class="textarea" id="format_string">insert into (id, description) VALUES (^1^, ^2^);</textarea>
+                <textarea class="textarea" id="format_string">insert into table (id, description) VALUES (^1^, ^2^);</textarea>
               </div>
               <footer class="card-footer">
                 <a href="javascript:code_format()" class="card-footer-item">Format</a>

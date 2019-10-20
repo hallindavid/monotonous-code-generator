@@ -13,11 +13,13 @@ if ($files != false)
 	}
 }
 
+$displayLog = $GLOBALS['log_output'];
+
 echo json_encode(array(
 	'hasFiles'=>($files != false ? '1' : '0'),
 	'files'=>$displayFiles,
-	'log'=>implode("\n",$log),
-	'log_count'=>count($log)
+	'log'=>($displayLog ? implode("\n",$log) : ''),
+	'log_count'=>($displayLog ? count($log) : 0)
 ));
 
 ?>
