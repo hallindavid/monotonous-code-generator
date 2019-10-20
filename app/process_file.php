@@ -84,11 +84,9 @@ if (!$file->info("readable"))
                     echo $row['col1'] . ', ' . $row['col2'] . '); <br />';
                   }
                 ?></code>
-                
               </div>
             </div>
           </div>
-
           <div class="column">
             <div class="card">
               <div class="card-content">                

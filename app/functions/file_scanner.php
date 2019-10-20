@@ -131,7 +131,7 @@
 			foreach ($file as $row) {
 				$table = array();
 				$table["^0^"] = $rowNum;
-				for ($i = 1; $i < $this->cols; $i++)
+				for ($i = 1; $i <= $this->cols; $i++)
 				{
 					$table["^".$i."^"] = $row[$i-1];
 				}
