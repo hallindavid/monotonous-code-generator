@@ -1,8 +1,3 @@
-<?php 
-$dir = new DirectoryScanner();
-$log = $dir->log();
-
-?>
 <section class="hero is-medium is-primary">
   <div class="hero-body">
     <div class="container">
@@ -25,38 +20,15 @@ $log = $dir->log();
 <section class="section">
   <div class="container">
     <div class="columns">
-      <div class="column is-8-desktop is-offset-2-desktop">
-        <?php
-        if ($dir->files() != false) { ?>
-        <strong>Select a file to begin</strong>
-        <table class="table is-bordered is-fullwidth">
-          <thead>
-            <tr>
-              <th>File</th>
-            </tr>
-          </thead>
-          <tbody>
-            <?php foreach($dir->files as $file) { ?>
-             <tr>
-              <td>
-                <a href="/process_file?file=<?php echo $file; ?>"><?php echo $file; ?></a>
-              </td>
-            </tr>
-            <?php } ?>
-          </tbody>
-        </table>
-        <?php } else { ?>
-          <div class="content">
-            There don't appear to be any files in the import folder.
-            <br /><br />
-            Drag one into the folder called "import_folder" in the web root
-            </div>
-        <?php } ?>
-
-        <strong>Log Output</strong>
-        <?php if (($GLOBALS['log_output'])  && (count($log) > 0) ) { ?>
-          <textarea class="textarea" rows="<?php echo count($log); ?>"><?php echo implode("\n", $log); ?></textarea>
-        <?php } ?>
+      <div class="column">
+        <div id="file_selection"></div>
+        <div id="log_output"></div>
+      </div>
+      
+      <div class="column" onload="makeDropzone()">
+        <strong>Upload your files</strong>
+        <div class="dropzone" id="file_uploader"></div>
+        <div id="error_container"></div>
       </div>
     </div>
   </div>

@@ -5,8 +5,6 @@ if (!$file->info("readable"))
 {
   header("Location: /"); 
 }
-
-require_once(APPPATH."includes/header.php");
 ?>
     <section class="hero is-medium is-primary">
       <div class="hero-body">
@@ -104,27 +102,8 @@ require_once(APPPATH."includes/header.php");
     </section>
      <section class="section">
       <div class="container">
-        <h1 class="title">Output</h1>
         <div class="columns">
           <div class="column" id="results_set"></div>
         </div>
       </div>
     </section>
-    <script id="new-template" type="text/x-handlebars-template"><div class="card">
-  <header class="card-header">
-      <p class="card-header-title">
-      {{runTime}} <button class="button is-text" data-clipboard-target="#response">COPY TEXT</button>
-    </p>
-  </header>
-  <div class="card-content">
-    <div class="content">
-      <div class="columns">
-        <div class="column">
-          <strong>Regular Format</strong>
-          <textarea id="response" rows="30" class="textarea">{{body}}</textarea>
-        </div>
-      </div>
-    </div>
-  </div>
-</div></script>
-<?php require_once(APPPATH."includes/footer.php"); ?>

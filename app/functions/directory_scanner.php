@@ -63,6 +63,11 @@ class DirectoryScanner {
 
 		$info = pathinfo($fullFilePath);
 
+		if (!isset($info["extension"])) {
+			$this->loggit($fileName . " has unacceptable extension");
+			return false;
+		}
+
 	  	if (!in_array($info['extension'], $GLOBALS['acceptable_extensions']))
 	  	{
 	  		$this->loggit($fileName . " has unacceptable extension of " . $info["extension"]);
